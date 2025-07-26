@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>.require's GALLERY of GIFS!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: #fff;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    header {
+      padding: 30px;
+      text-align: center;
+      background: linear-gradient(90deg, #ff0080, #7928ca);
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .gif-container {
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 0 10px #0008;
+      transition: transform 0.2s;
+    }
+
+    .gif-container:hover {
+      transform: scale(1.05);
+    }
+
+    .gif-container img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #888;
+      font-size: 0.9em;
+    }
+
+    /* Disclaimer modal */
+    #disclaimer {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+      padding: 30px;
+      text-align: center;
+    }
+
+    #disclaimer h2 {
+      font-size: 2em;
+      color: #ff5555;
+      margin-bottom: 10px;
+    }
+
+    #disclaimer p {
+      font-size: 1.2em;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+
+    #enter-btn {
+      background: #ff0080;
+      color: white;
+      font-weight: bold;
+      font-size: 1em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #enter-btn:hover {
+      background: #ff33aa;
+    }
+  </style>
+</head>
+<body>
+  <div id="disclaimer">
+    <h2>⚠️ NSFW WARNING</h2>
+    <p>
+      THIS PAGE MAY CONTAIN <strong>NOT SAFE FOR WORK</strong> MATERIAL  
+      DUE TO <strong>.require</strong> BEING AN <em>EDGY PERSON, FUCKING DUMBASS</em>.
+      <br><br>Viewer discretion is advised.
+    </p>
+    <button id="enter-btn">I Understand, Show Me The GIFs</button>
+  </div>
+
+  <header>.require's GALLERY of GIFS!</header>
+  <div class="gallery" id="gallery">Loading GIFs...</div>
+  <footer>Made with ❤️ by .require</footer>
+
+  <script>
+    document.getElementById("enter-btn").addEventListener("click", () => {
+      document.getElementById("disclaimer").style.display = "none";
+    });
+
+    fetch("https://raw.githubusercontent.com/YOURUSERNAME/gif-gallery/main/gifs.json")
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("gallery");
+        container.innerHTML = "";
+        data.gifs.forEach(url => {
+          const div = document.createElement("div");
+          div.className = "gif-container";
+          const img = document.createElement("img");
+          img.src = url;
+          div.appendChild(img);
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById("gallery").innerHTML = "Failed to load GIFs.";
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
